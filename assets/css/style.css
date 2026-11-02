@@ -1,0 +1,193 @@
+/* ===== Цвета, шрифты и размеры – в brand/tokens.css =====
+   Здесь только var(--...). Прямые #hex и названия шрифтов сюда не писать.
+   Идея страницы: «долг вычеркнут». Главное на странице – лист со списком
+   кредиторов на первом экране: долги вычёркиваются красной чертой по очереди. */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body { margin: 0; font: 400 var(--fs-body)/var(--lh-body) var(--font-body); color: var(--color-ink); background: var(--color-bg); }
+img { max-width: 100%; display: block; }
+a { color: var(--color-primary); text-underline-offset: .2em; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-s); }
+h1, h2, h3 { font-family: var(--font-head); font-weight: var(--fw-head); line-height: var(--lh-head); margin: 0 0 .5em; text-wrap: balance; }
+h1 { font-size: var(--fs-h1); letter-spacing: -.01em; }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); line-height: 1.3; }
+p { max-width: var(--measure); margin: 0 0 var(--space-3); }
+.muted { color: var(--color-muted); }
+
+.container { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+.section { padding: var(--space-section) 0; }
+.section--tinted { background: var(--color-tint); }
+.section__head { margin-bottom: var(--space-5); }
+.section__head p { margin: 0; }
+
+/* ===== Кнопки: прямоугольные, как бланк ===== */
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 1.6rem; border-radius: var(--radius-m); text-decoration: none; border: 1.5px solid var(--color-primary); cursor: pointer; font: 500 1rem/1.2 var(--font-body); transition: background-color .2s, color .2s; }
+.btn--primary { background: var(--color-primary); color: var(--color-on-primary); }
+.btn--primary:hover { background: var(--color-primary-hover); border-color: var(--color-primary-hover); }
+.btn--ghost { background: transparent; color: var(--color-primary); }
+.btn--ghost:hover { background: var(--color-surface); }
+.btn--wide { width: 100%; }
+
+/* ===== Шапка ===== */
+.header { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--color-bg) 94%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--color-line); }
+.header__inner { display: flex; align-items: center; gap: 28px; height: 68px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+.logo img { width: 40px; height: 40px; flex: none; }
+.logo__name { display: block; font-family: var(--font-head); font-weight: 500; font-size: 1.25rem; line-height: 1.1; }
+.logo__desc { display: block; font-size: .75rem; color: var(--color-muted); }
+.nav { display: flex; gap: 24px; margin-left: auto; }
+.nav a { color: var(--color-ink); text-decoration: none; font-size: .9375rem; }
+.nav a:hover { color: var(--color-primary); }
+.header__phone { color: var(--color-ink); font-weight: 500; text-decoration: none; white-space: nowrap; }
+
+/* ===== Первый экран ===== */
+.hero { padding: var(--space-6) 0 var(--space-section); }
+.hero__inner { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(2rem, 6vw, 5.5rem); align-items: center; }
+.hero__kicker { font-size: var(--fs-small); color: var(--color-muted); margin-bottom: var(--space-4); }
+.hero h1 { max-width: 17ch; }
+.hero__lead { font-size: var(--fs-lead); color: var(--color-muted); max-width: 46ch; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin: var(--space-5) 0 var(--space-4); }
+.hero__note { font-size: var(--fs-small); color: var(--color-muted); margin: 0; }
+
+/* лист: бумага с загнутым углом, чуть повёрнута, единственная тень на странице */
+.sheet { --corner: 34px; position: relative; margin: 0; background: var(--color-surface); padding: clamp(24px, 3.2vw, 40px);
+  clip-path: polygon(0 0, calc(100% - var(--corner)) 0, 100% var(--corner), 100% 100%, 0 100%);
+  filter: drop-shadow(0 18px 34px color-mix(in srgb, var(--color-ink) 14%, transparent)) drop-shadow(0 2px 4px color-mix(in srgb, var(--color-ink) 8%, transparent));
+  transform: rotate(-1.2deg); }
+.sheet::before { content: ""; position: absolute; top: 0; right: 0; width: var(--corner); height: var(--corner);
+  background: linear-gradient(225deg, var(--color-bg) 50%, var(--color-tint) 50%); }
+.sheet__head span { font-size: var(--fs-small); color: var(--color-muted); }
+.sheet__head h2 { font-size: var(--fs-h3); margin: var(--space-1) 0 var(--space-4); }
+.sheet__list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--color-line); counter-reset: row; }
+.sheet__list li, .sheet__total { position: relative; display: flex; justify-content: space-between; gap: var(--space-3); padding: .7rem 0; border-bottom: 1px solid var(--color-line); }
+.sheet__list li { counter-increment: row; }
+.sheet__list li span::before { content: counter(row) ". "; color: var(--color-muted); }
+.sheet b { font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sheet__total { border-bottom: 0; font-weight: 600; padding-top: .9rem; }
+.sheet__total b { font-weight: 600; }
+/* черта вычёркивания: тянется слева направо, строка за строкой */
+.sheet__list li::after, .sheet__total::after { content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 2.5px; margin-top: -1px; border-radius: 2px;
+  background: var(--color-highlight); transform: scaleX(0); transform-origin: left center; animation: strike .45s cubic-bezier(.6, 0, .3, 1) forwards; }
+.sheet__list li:nth-child(1)::after { animation-delay: .7s; }
+.sheet__list li:nth-child(2)::after { animation-delay: 1.05s; }
+.sheet__list li:nth-child(3)::after { animation-delay: 1.4s; }
+.sheet__list li:nth-child(4)::after { animation-delay: 1.75s; }
+.sheet__list li:nth-child(5)::after { animation-delay: 2.1s; }
+.sheet__total::after { animation-delay: 2.6s; height: 3px; }
+.sheet__list li > *, .sheet__total > * { animation: fade .3s ease-out forwards; }
+.sheet__list li:nth-child(1) > * { animation-delay: .95s; }
+.sheet__list li:nth-child(2) > * { animation-delay: 1.3s; }
+.sheet__list li:nth-child(3) > * { animation-delay: 1.65s; }
+.sheet__list li:nth-child(4) > * { animation-delay: 2s; }
+.sheet__list li:nth-child(5) > * { animation-delay: 2.35s; }
+.sheet__total > * { animation-delay: 2.85s; }
+/* итог процедуры: «синей ручкой» */
+.sheet__verdict { margin: var(--space-4) 0 0; font-family: var(--font-head); font-style: italic; font-size: var(--fs-lead); line-height: 1.35; color: var(--color-primary);
+  opacity: 0; transform: translateY(6px); animation: verdict .6s ease-out 3.2s forwards; }
+.sheet figcaption { margin-top: var(--space-3); font-size: .75rem; color: var(--color-muted); }
+@keyframes strike { to { transform: scaleX(1); } }
+@keyframes fade { to { opacity: .45; } }
+@keyframes verdict { to { opacity: 1; transform: none; } }
+
+/* ===== Что спишут ===== */
+.debts { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); }
+.debts__list { list-style: none; padding: 0; margin: 0; }
+.debts__list li { padding: var(--space-3) 0; border-top: 1px solid var(--color-line); }
+.debts__list li:last-child { border-bottom: 1px solid var(--color-line); }
+/* списываемые долги – вычеркнуты той же чертой, что на листе */
+.debts__list--off li { text-decoration: line-through; text-decoration-color: var(--color-highlight); text-decoration-thickness: 2px; }
+.debts__home { margin-top: var(--space-4); }
+.aside { margin-top: var(--space-5); padding-left: var(--space-4); border-left: 3px solid var(--color-primary); }
+
+/* ===== Цены: прайс-документ ===== */
+.prices { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.pricelist { background: var(--color-surface); border-radius: var(--radius-m); padding: clamp(20px, 3.5vw, 40px); }
+.pricelist dl { margin: 0 0 var(--space-4); }
+.pricelist dl > div { display: grid; grid-template-columns: 1fr auto; gap: var(--space-3); align-items: baseline; padding: var(--space-4) 0; border-bottom: 1px solid var(--color-line); }
+.pricelist dl > div:first-child { padding-top: 0; }
+.pricelist dt { font-weight: 500; }
+.pricelist dt small { display: block; font-weight: 400; color: var(--color-muted); font-size: var(--fs-small); margin-top: 2px; }
+.pricelist dd { margin: 0; font-family: var(--font-head); font-size: var(--fs-h3); white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; }
+.pricelist__extra { font-size: var(--fs-small); color: var(--color-muted); }
+.pricelist__extra b { color: var(--color-ink); font-weight: 500; }
+
+/* ===== Этапы: последовательность ===== */
+.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-4); counter-reset: step; }
+.steps li { counter-increment: step; padding-top: var(--space-4); border-top: 2px solid var(--color-ink); }
+.steps li:last-child { border-top-color: var(--color-highlight); }
+.steps li::before { content: counter(step); display: block; font-family: var(--font-head); font-size: var(--fs-h2); line-height: 1; color: var(--color-primary); margin-bottom: var(--space-3); }
+.steps h3 { font-size: 1.125rem; }
+.steps p { color: var(--color-muted); margin: 0; font-size: .9375rem; }
+
+/* ===== Вопросы ===== */
+.split { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.faq details { border-top: 1px solid var(--color-line); }
+.faq details:last-child { border-bottom: 1px solid var(--color-line); }
+.faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: var(--space-4); align-items: center; padding: var(--space-4) 0; font-family: var(--font-head); font-size: 1.1875rem; line-height: 1.3; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; flex: none; width: 32px; height: 32px; display: grid; place-items: center; border-radius: var(--radius-s); border: 1px solid var(--color-line); color: var(--color-primary); font: 400 1.25rem/1 var(--font-body); transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { color: var(--color-muted); margin: 0 0 var(--space-4); }
+
+/* ===== Заявка ===== */
+.signup { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.signup__call { margin-top: var(--space-5); color: var(--color-muted); }
+.signup__call a { font-family: var(--font-head); font-size: var(--fs-h2); color: var(--color-ink); text-decoration: none; line-height: 1.3; }
+.form { display: grid; gap: 18px; background: var(--color-surface); padding: clamp(20px, 4vw, 36px); border-radius: var(--radius-m); border: 1px solid var(--color-line); }
+.form label { display: grid; gap: 6px; font-weight: 500; font-size: .9375rem; }
+.form small { font-weight: 400; color: var(--color-muted); }
+.form input, .form textarea { font: inherit; min-height: 48px; padding: 12px 14px; border: 1px solid var(--color-line); border-radius: var(--radius-s); background: var(--color-surface); color: var(--color-ink); width: 100%; }
+.form input:focus-visible, .form textarea:focus-visible { box-shadow: none; outline: 2px solid var(--color-primary); outline-offset: 1px; border-color: var(--color-primary); }
+.form .invalid { border-color: var(--color-error); }
+.form__choice { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.form__choice legend { font-weight: 500; font-size: .9375rem; margin-bottom: 6px; padding: 0; }
+.form__choice label { display: block; }
+.form__choice input { position: absolute; opacity: 0; width: 1px; min-height: 0; }
+.form__choice span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--color-line); border-radius: var(--radius-pill); font-weight: 400; cursor: pointer; }
+.form__choice input:checked + span { border-color: var(--color-primary); color: var(--color-primary); font-weight: 500; background: var(--color-bg); }
+.form__choice input:focus-visible + span { box-shadow: var(--focus-ring); }
+.form .consent { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: var(--fs-small); color: var(--color-muted); }
+.form .consent input { width: auto; min-height: 0; margin-top: 4px; accent-color: var(--color-primary); }
+.form__status { margin: 0; min-height: 1.5em; font-size: .9375rem; }
+.form__status--ok { color: var(--color-success); font-weight: 500; }
+.form__status--error { color: var(--color-error); }
+
+/* ===== Подвал: знак крупно, единственный раз ===== */
+.footer { background: var(--color-inverse-bg); color: var(--color-inverse-text); padding: var(--space-6) 0 var(--space-5); font-size: var(--fs-small); }
+.footer__inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--space-5); align-items: start; }
+.footer a { color: var(--color-inverse-text); }
+.footer .logo img { width: 72px; height: 72px; }
+.footer .logo__name { font-size: 1.5rem; }
+.footer .logo__desc { color: inherit; opacity: .7; font-size: var(--fs-small); }
+.footer__phone { font-family: var(--font-head); font-size: var(--fs-h3); text-decoration: none; }
+.footer__demo { opacity: .7; }
+
+/* ===== Планшеты и телефоны ===== */
+@media (max-width: 960px) {
+  .nav { display: none; }
+  .header__phone { margin-left: auto; }
+  .hero__inner, .debts, .prices, .split, .signup, .footer__inner { grid-template-columns: 1fr; }
+  .sheet { max-width: 520px; }
+  .steps { grid-template-columns: 1fr 1fr; row-gap: var(--space-5); }
+}
+@media (max-width: 600px) {
+  body { font-size: 1rem; }
+  .header .logo__desc { display: none; }
+  .header .logo img { width: 34px; height: 34px; }
+  .header__phone { font-size: var(--fs-small); }
+  .hero { padding-top: var(--space-5); }
+  .hero__actions .btn { flex: 1 1 100%; }
+  .sheet { --corner: 26px; transform: rotate(-.8deg); }
+  .steps { grid-template-columns: 1fr; }
+  .pricelist dl > div { grid-template-columns: 1fr; gap: var(--space-1); }
+  .pricelist dd { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn, .faq summary::after { transition: none; }
+  .sheet__list li::after, .sheet__total::after { animation: none; transform: none; }
+  .sheet__list li > *, .sheet__total > * { animation: none; opacity: .45; }
+  .sheet__verdict { animation: none; opacity: 1; transform: none; }
+}
